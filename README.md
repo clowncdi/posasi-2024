@@ -1,9 +1,16 @@
-# 영상으로 연결된 세상
+## 영상으로 연결된 세상
+# 포사시
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+“유튜브를 시작하고 싶은데 어떻게 해야 할지 모르겠어요”
 
-In the project directory, you can run:
+“기업 홍보영상을 제작하고 싶어요”
+
+“인터뷰 촬영, 교육영상 촬영을 하려고 해요”
+
+“개인 영상 촬영 편집 부탁드려요”
+
+이런분들을 위해 저희 포사시는 “영상으로 연결된 세상”이라는 이념을 바탕으로 유튜브, 기업영상, 인터뷰 스케치 교육 등 다양한 영상을 제작하고 있습니다.
 
 
