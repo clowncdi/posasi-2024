@@ -1,0 +1,4 @@
+# https://www.robotstxt.org/robotstxt.html
+Sitemap: https://clowncdi.github.io/posasi/sitemap.xml
+User-agent: *
+Allow: /
