@@ -5,7 +5,7 @@ import {
   ScreenSmall,
   ScreenMedium,
 } from "../components/Common";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   BsFillBriefcaseFill,
   BsFillCameraReelsFill,
@@ -13,51 +13,12 @@ import {
   BsFillCollectionPlayFill,
   BsFilm,
 } from "react-icons/bs";
-import { db } from "../firebase";
-import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
+import { categories, works } from "../workData";
 
 const Works = () => {
-  const [category, setCategory] = useState([]);
   const [type, setType] = useState("전체");
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    getCategory();
-  }, []);
-
-  useEffect(() => {
-    getItems(type);
-  }, [type]);
-
-  const getCategory = async () => {
-    const categoryRef = collection(db, "category");
-    const q = await query(categoryRef, orderBy("id"));
-    const data = await getDocs(q);
-    const newData = data.docs.map((doc) => ({
-      ...doc.data(),
-    }));
-    setCategory(newData);
-  };
-
-  const getItems = async (type) => {
-    const worksRef = collection(db, "works");
-    let q;
-    if (type === "전체") {
-      q = await query(worksRef, orderBy("order"));
-    } else {
-      q = await query(
-        worksRef,
-        where("category", "==", type),
-        orderBy("order")
-      );
-    }
-    const data = await getDocs(q);
-    const newData = data.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setItems(newData);
-  };
+  const items =
+    type === "전체" ? works : works.filter((item) => item.category === type);
 
   const onClickType = (event) => {
     const {
@@ -72,9 +33,9 @@ const Works = () => {
     <WorksContainer>
       <Category>
         <Wrap>
-          {category && (
+          {categories && (
             <>
-              {category.map((data) => (
+              {categories.map((data) => (
                 <CategoryItem key={data.id}>
                   <Label
                     htmlFor={data.id}
@@ -116,21 +77,19 @@ const Works = () => {
           <>
             <TypeTitle>{type}</TypeTitle>
             {items.map((item) => (
-              <Item key={item.createdAt}>
+              <Item key={item.id}>
                 <a href={item.link} target="_blank" rel="noreferrer">
                   <Title className={"title"}>{item.title}</Title>
                   <span>
-                    <img
-                      src={
-                        item.attachmentUrl === ""
-                          ? process.env.PUBLIC_URL + "/default_img.jpg"
-                          : item.attachmentUrl
-                      }
-                      width={"100%"}
-                      height={"100%"}
-                      alt={item.title}
-                      style={{ borderRadius: 10 }}
-                    />
+                    {item.imageSrc && (
+                      <img
+                        src={item.imageSrc}
+                        width={"100%"}
+                        height={"100%"}
+                        alt={item.title || ""}
+                        style={{ borderRadius: 10 }}
+                      />
+                    )}
                   </span>
                 </a>
               </Item>

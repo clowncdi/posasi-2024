@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { pointColor, Width1400 } from "../components/Common";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   BsFillBriefcaseFill,
   BsFillCameraReelsFill,
@@ -8,53 +8,13 @@ import {
   BsFillCollectionPlayFill,
   BsFilm,
 } from "react-icons/bs";
-import { db } from "../firebase";
-import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
 import { Link } from "react-router-dom";
+import { categories, works } from "../workData";
 
 const Edit = () => {
-  const [category, setCategory] = useState([]);
   const [type, setType] = useState("전체");
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    getCategory();
-  }, []);
-
-  useEffect(() => {
-    getItems(type);
-  }, [type]);
-
-  const getCategory = async () => {
-    const categoryRef = collection(db, "category");
-    const q = await query(categoryRef, orderBy("id"));
-    const data = await getDocs(q);
-    const newData = data.docs.map((doc) => ({
-      uid: doc.id,
-      ...doc.data(),
-    }));
-    setCategory(newData);
-  };
-
-  const getItems = async (type) => {
-    const worksRef = collection(db, "works");
-    let q;
-    if (type === "전체") {
-      q = await query(worksRef, orderBy("order"));
-    } else {
-      q = await query(
-        worksRef,
-        where("category", "==", type),
-        orderBy("order")
-      );
-    }
-    const data = await getDocs(q);
-    const newData = data.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setItems(newData);
-  };
+  const items =
+    type === "전체" ? works : works.filter((item) => item.category === type);
 
   const onClickType = (event) => {
     const {
@@ -75,10 +35,10 @@ const Edit = () => {
     >
       <Category>
         <Wrap>
-          {category && (
+          {categories && (
             <>
-              {category.map((data) => (
-                <CategoryItem key={data.uid}>
+              {categories.map((data) => (
+                <CategoryItem key={data.id}>
                   <Label
                     htmlFor={data.id}
                     primary={type === data.name && "primary"}
@@ -118,28 +78,26 @@ const Edit = () => {
         {items && (
           <>
             <TypeTitle>{type}</TypeTitle>
-            {items.map((item) => (
+            {items.map((item, index) => (
               <Item key={item.id} itemObj={item}>
                 <Link
                   to={{
                     pathname: `/write-edit/${item.id}`,
-                    state: { uid: item.creatorId, itemObj: item },
+                    state: { itemObj: item },
                   }}
                 >
                   <Image>
-                    <img
-                      src={
-                        item.attachmentUrl === ""
-                          ? process.env.PUBLIC_URL + "/default_img.jpg"
-                          : item.attachmentUrl
-                      }
-                      width={"100%"}
-                      alt={item.title}
-                      style={{ borderRadius: 10 }}
-                    />
+                    {item.imageSrc && (
+                      <img
+                        src={item.imageSrc}
+                        width={"100%"}
+                        alt={item.title || ""}
+                        style={{ borderRadius: 10 }}
+                      />
+                    )}
                   </Image>
                   <Title className={"order"}>
-                    <span className={"title"}>정렬순서</span> {item.order}
+                    <span className={"title"}>정렬순서</span> {index + 1}
                   </Title>
                   <Title className={"title"}>{item.title}</Title>
                 </Link>
