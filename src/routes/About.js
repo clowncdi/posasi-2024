@@ -32,7 +32,7 @@ const About = () => (
         <div className={"product"}>
           <div className={"product-image"}>
             <img
-              src={process.env.PUBLIC_URL + "/posasi_5.jpg"}
+              src="posasi_5.jpg"
               width={"100%"}
               style={{ borderRadius: 10 }}
               alt={"제작분유 이미지"}
@@ -95,13 +95,13 @@ const About = () => (
           </div>
           <div className={"process-image"}>
             <img
-              src={process.env.PUBLIC_URL + "/posasi_3.jpg"}
+              src="posasi_3.jpg"
               width={"100%"}
               style={{ borderRadius: 10 }}
               alt={"제작 프로세스 이미지"}
             />
             <img
-              src={process.env.PUBLIC_URL + "/posasi_2.jpg"}
+              src="posasi_2.jpg"
               width={"100%"}
               style={{ borderRadius: 10 }}
               alt={"제작 프로세스 이미지"}
@@ -297,7 +297,7 @@ const TitleWrap = styled.div`
 
 const AboutContainer = styled.div`
   width: 100%;
-  background-image: url(${process.env.PUBLIC_URL + '/posasi_1.jpg'});
+  background-image: url(posasi_1.jpg);
   background-position: 72% 50%;
   background-size: cover;
   color: #fff;
