@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { pointColor, ScreenSmall } from "./Common";
-import { auth } from "../firebase";
 
-const Nav = ({ isLoggedIn }) => {
+const Nav = () => {
   const [type, setType] = useState("works");
 
   const onClickType = (value) => {
@@ -49,35 +48,6 @@ const Nav = ({ isLoggedIn }) => {
               </Text>
             </Link>
           </li>
-          {isLoggedIn && (
-            <>
-              <li key={"write"}>
-                <Link to="/write">
-                  <Text
-                    primary={type === "write" && "primary"}
-                    onClick={() => onClickType("write")}
-                  >
-                    Write
-                  </Text>
-                </Link>
-              </li>
-              <li key={"edit"}>
-                <Link to="/edit">
-                  <Text
-                    primary={type === "edit" && "primary"}
-                    onClick={() => onClickType("edit")}
-                  >
-                    Edit
-                  </Text>
-                </Link>
-              </li>
-              <li key={"logout"}>
-                <Text onClick={() => auth.signOut()} className={"logout"}>
-                  Logout
-                </Text>
-              </li>
-            </>
-          )}
         </UL>
       </NavWrap>
     </Header>
