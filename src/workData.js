@@ -1,5 +1,5 @@
 const imagePath = (fileName) =>
-  fileName ? `images/${fileName.normalize("NFD")}` : "";
+  fileName ? `${process.env.PUBLIC_URL}/images/${fileName.normalize("NFC")}` : "";
 
 export const categories = [
   { id: "all", name: "전체" },

@@ -21,7 +21,7 @@ const Nav = () => {
             onClick={() => onClickType("works")}
           >
             <img
-              src="logo.png"
+              src={process.env.PUBLIC_URL + "/logo.png"}
               width={200}
               alt="logo"
             />
